@@ -3,7 +3,6 @@ import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@re
 import { ClientOnly } from 'remix-utils'
 import Container from '~/components/Container'
 
-import stylesUrl from '~/styles/maze3d.css'
 import tailwind from '~/styles/tailwind.css'
 
 export const meta: MetaFunction = () => ({
@@ -14,7 +13,6 @@ export const meta: MetaFunction = () => ({
 
 export const links: LinksFunction = () => {
   return [
-    { rel: 'stylesheet', href: stylesUrl },
     { rel: 'stylesheet', href: tailwind },
     { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
     { rel: 'preconnect', href: 'https://fonts.gstatic.com' },

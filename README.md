@@ -26,8 +26,8 @@ npm run dev
 - [x] Rebuild repo as an express server remix app
 - [x] Tie Seed to psudo random number generation
 - [x] 2D view - Bug when changing maze dimensions, character marker doesn't reset to entrance of the maze
-- [ ] 2D view - 2px maze outer border without closing off exits
-- [ ] 2D view - transitioning ball character to move around maze
+- [x] 2D view - 2px maze outer border without closing off exits
+- [x] 2D view - transitioning ball character to move around maze
 - [ ] 2D view - improved entry and exit points
 - [ ] 2D view - maze finished effect
 - [ ] Construct 3D View

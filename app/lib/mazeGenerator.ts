@@ -78,16 +78,16 @@ export class MazeSection {
 
   randomIsolatedNeighbor() {
     let options = []
-    if (this.nNeighbor != null && !this.nNeighbor.isOnEntrancePath && !this.nNeighbor.isOnExitPath) {
+    if (this.nNeighbor !== null && !this.nNeighbor.isOnEntrancePath && !this.nNeighbor.isOnExitPath) {
       options.push(this.nNeighbor)
     }
-    if (this.eNeighbor != null && !this.eNeighbor.isOnEntrancePath && !this.eNeighbor.isOnExitPath) {
+    if (this.eNeighbor !== null && !this.eNeighbor.isOnEntrancePath && !this.eNeighbor.isOnExitPath) {
       options.push(this.eNeighbor)
     }
-    if (this.sNeighbor != null && !this.sNeighbor.isOnEntrancePath && !this.sNeighbor.isOnExitPath) {
+    if (this.sNeighbor !== null && !this.sNeighbor.isOnEntrancePath && !this.sNeighbor.isOnExitPath) {
       options.push(this.sNeighbor)
     }
-    if (this.wNeighbor != null && !this.wNeighbor.isOnEntrancePath && !this.wNeighbor.isOnExitPath) {
+    if (this.wNeighbor !== null && !this.wNeighbor.isOnEntrancePath && !this.wNeighbor.isOnExitPath) {
       options.push(this.wNeighbor)
     }
     return options.length > 0 ? this.rand.randomSelection(options) : null
@@ -130,19 +130,19 @@ export class Maze {
   }
 
   combineSections(section1: MazeSection, section2: MazeSection, progressive = true) {
-    if (typeof progressive == 'undefined') {
+    if (typeof progressive === 'undefined') {
       progressive = true
     }
-    if (section1.nNeighbor != null && section1.nNeighbor.id == section2.id) {
+    if (section1.nNeighbor !== null && section1.nNeighbor.id === section2.id) {
       section1.nWall = false
       section2.sWall = false
-    } else if (section1.eNeighbor != null && section1.eNeighbor.id == section2.id) {
+    } else if (section1.eNeighbor !== null && section1.eNeighbor.id === section2.id) {
       section1.eWall = false
       section2.wWall = false
-    } else if (section1.sNeighbor != null && section1.sNeighbor.id == section2.id) {
+    } else if (section1.sNeighbor !== null && section1.sNeighbor.id === section2.id) {
       section1.sWall = false
       section2.nWall = false
-    } else if (section1.wNeighbor != null && section1.wNeighbor.id == section2.id) {
+    } else if (section1.wNeighbor !== null && section1.wNeighbor.id === section2.id) {
       section1.wWall = false
       section2.eWall = false
     }
@@ -164,7 +164,7 @@ export class Maze {
   pathFind(extender: MazeSection) {
     for (let x = 0; x < this.mazeSegmentLength; x++) {
       const next = extender.randomIsolatedNeighbor()
-      if (next != null) {
+      if (next !== null) {
         this.combineSections(extender, next)
         this.onPathSections.push(next)
         extender = next
@@ -181,10 +181,10 @@ export class Maze {
     }
     //InterLink Maze Sections
     for (let x = 0; x < this.sections.length; x++) {
-      if ((x + 1) % this.dimX != 0) {
+      if ((x + 1) % this.dimX !== 0) {
         this.sections[x].eNeighbor = this.sections[x + 1]
       }
-      if (x % this.dimX != 0) {
+      if (x % this.dimX !== 0) {
         this.sections[x].wNeighbor = this.sections[x - 1]
       }
       if (x > this.dimX - 1) {
@@ -196,10 +196,10 @@ export class Maze {
     }
     //Make sections self aware of location withing grid
     for (let x = 0; x < this.sections.length; x++) {
-      if (this.sections[x].nNeighbor != null) {
+      if (this.sections[x].nNeighbor !== null) {
         this.sections[x].y = (this.sections[x].nNeighbor as MazeSection).y + 1
       }
-      if (this.sections[x].wNeighbor != null) {
+      if (this.sections[x].wNeighbor !== null) {
         this.sections[x].x = (this.sections[x].wNeighbor as MazeSection).x + 1
       }
     }
@@ -208,55 +208,55 @@ export class Maze {
     let dir = 1
     do {
       this.wallSections.push(section)
-      if (dir == 1) {
-        if (section.eNeighbor != null) {
+      if (dir === 1) {
+        if (section.eNeighbor !== null) {
           section = section.eNeighbor
         } else {
           dir = 2
         }
       }
-      if (dir == 2) {
-        if (section.sNeighbor != null) {
+      if (dir === 2) {
+        if (section.sNeighbor !== null) {
           section = section.sNeighbor
         } else {
           dir = 3
         }
       }
-      if (dir == 3) {
-        if (section.wNeighbor != null) {
+      if (dir === 3) {
+        if (section.wNeighbor !== null) {
           section = section.wNeighbor
         } else {
           dir = 4
         }
       }
-      if (dir == 4) {
-        if (section.nNeighbor != null) {
+      if (dir === 4) {
+        if (section.nNeighbor !== null) {
           section = section.nNeighbor
         } else {
           dir = 1
         }
       }
-    } while (section.id != 0)
+    } while (section.id !== 0)
     //Place Maze Entrance/Exit
     this.mazeEntrance = null
     this.mazeExit = null
-    while (this.mazeEntrance == null) {
+    while (this.mazeEntrance === null) {
       let attempt = this.rand.range(0, this.wallSections.length) as number
-      if (this.wallSections[attempt].neighborCount() == 3) {
+      if (this.wallSections[attempt].neighborCount() === 3) {
         this.mazeEntrance = this.wallSections[attempt]
         this.mazeEntrance.isEntrance = true
         this.mazeEntrance.isOnEntrancePath = true
         this.onPathSections.push(this.mazeEntrance)
-        if (this.mazeEntrance.nNeighbor == null) {
+        if (this.mazeEntrance.nNeighbor === null) {
           this.mazeEntrance.nWall = false
         }
-        if (this.mazeEntrance.eNeighbor == null) {
+        if (this.mazeEntrance.eNeighbor === null) {
           this.mazeEntrance.eWall = false
         }
-        if (this.mazeEntrance.sNeighbor == null) {
+        if (this.mazeEntrance.sNeighbor === null) {
           this.mazeEntrance.sWall = false
         }
-        if (this.mazeEntrance.wNeighbor == null) {
+        if (this.mazeEntrance.wNeighbor === null) {
           this.mazeEntrance.wWall = false
         }
         this.mazeExit =
@@ -268,16 +268,16 @@ export class Maze {
         this.mazeExit.isExit = true
         this.mazeExit.isOnExitPath = true
         this.onPathSections.push(this.mazeExit)
-        if (this.mazeExit.nNeighbor == null) {
+        if (this.mazeExit.nNeighbor === null) {
           this.mazeExit.nWall = false
         }
-        if (this.mazeExit.eNeighbor == null) {
+        if (this.mazeExit.eNeighbor === null) {
           this.mazeExit.eWall = false
         }
-        if (this.mazeExit.sNeighbor == null) {
+        if (this.mazeExit.sNeighbor === null) {
           this.mazeExit.sWall = false
         }
-        if (this.mazeExit.wNeighbor == null) {
+        if (this.mazeExit.wNeighbor === null) {
           this.mazeExit.wWall = false
         }
       }
@@ -287,9 +287,9 @@ export class Maze {
     this.pathFind(this.mazeExit as MazeSection)
     do {
       let proposedSection = null
-      while (proposedSection == null) {
+      while (proposedSection === null) {
         proposedSection = this.rand.randomSelection<MazeSection>(this.onPathSections)
-        if (proposedSection.randomIsolatedNeighbor() == null) {
+        if (proposedSection.randomIsolatedNeighbor() === null) {
           proposedSection = null
         }
       }
@@ -301,7 +301,7 @@ export class Maze {
     let distance = 0
     for (let x = 0; x < this.sections.length; x++) {
       if (
-        this.sections[x].eNeighbor != null &&
+        this.sections[x].eNeighbor !== null &&
         ((this.sections[x].isOnEntrancePath && (this.sections[x].eNeighbor as MazeSection).isOnExitPath) ||
           (this.sections[x].isOnExitPath && (this.sections[x].eNeighbor as MazeSection).isOnEntrancePath))
       ) {
@@ -316,7 +316,7 @@ export class Maze {
         }
       }
       if (
-        this.sections[x].sNeighbor != null &&
+        this.sections[x].sNeighbor !== null &&
         ((this.sections[x].isOnEntrancePath && (this.sections[x].sNeighbor as MazeSection).isOnExitPath) ||
           (this.sections[x].isOnExitPath && (this.sections[x].sNeighbor as MazeSection).isOnEntrancePath))
       ) {
@@ -339,31 +339,31 @@ export class Maze {
     while (cursor.distanceFromOpening > 0) {
       cursor.isOnMazePath = true
       if (
-        cursor.nWall == false &&
-        cursor.nNeighbor != null &&
-        cursor.nNeighbor.isOnEntrancePath == cursor.isOnEntrancePath &&
-        cursor.nNeighbor.distanceFromOpening == cursor.distanceFromOpening - 1
+        cursor.nWall === false &&
+        cursor.nNeighbor !== null &&
+        cursor.nNeighbor.isOnEntrancePath === cursor.isOnEntrancePath &&
+        cursor.nNeighbor.distanceFromOpening === cursor.distanceFromOpening - 1
       ) {
         cursor = cursor.nNeighbor
       } else if (
-        cursor.eWall == false &&
-        cursor.eNeighbor != null &&
-        cursor.eNeighbor.isOnEntrancePath == cursor.isOnEntrancePath &&
-        cursor.eNeighbor.distanceFromOpening == cursor.distanceFromOpening - 1
+        cursor.eWall === false &&
+        cursor.eNeighbor !== null &&
+        cursor.eNeighbor.isOnEntrancePath === cursor.isOnEntrancePath &&
+        cursor.eNeighbor.distanceFromOpening === cursor.distanceFromOpening - 1
       ) {
         cursor = cursor.eNeighbor
       } else if (
-        cursor.sWall == false &&
-        cursor.sNeighbor != null &&
-        cursor.sNeighbor.isOnEntrancePath == cursor.isOnEntrancePath &&
-        cursor.sNeighbor.distanceFromOpening == cursor.distanceFromOpening - 1
+        cursor.sWall === false &&
+        cursor.sNeighbor !== null &&
+        cursor.sNeighbor.isOnEntrancePath === cursor.isOnEntrancePath &&
+        cursor.sNeighbor.distanceFromOpening === cursor.distanceFromOpening - 1
       ) {
         cursor = cursor.sNeighbor
       } else if (
-        cursor.wWall == false &&
-        cursor.wNeighbor != null &&
-        cursor.wNeighbor.isOnEntrancePath == cursor.isOnEntrancePath &&
-        cursor.wNeighbor.distanceFromOpening == cursor.distanceFromOpening - 1
+        cursor.wWall === false &&
+        cursor.wNeighbor !== null &&
+        cursor.wNeighbor.isOnEntrancePath === cursor.isOnEntrancePath &&
+        cursor.wNeighbor.distanceFromOpening === cursor.distanceFromOpening - 1
       ) {
         cursor = cursor.wNeighbor
       }
@@ -372,31 +372,31 @@ export class Maze {
     while (cursor.distanceFromOpening > 0) {
       cursor.isOnMazePath = true
       if (
-        cursor.nWall == false &&
-        cursor.nNeighbor != null &&
-        cursor.nNeighbor.isOnEntrancePath == cursor.isOnEntrancePath &&
-        cursor.nNeighbor.distanceFromOpening == cursor.distanceFromOpening - 1
+        cursor.nWall === false &&
+        cursor.nNeighbor !== null &&
+        cursor.nNeighbor.isOnEntrancePath === cursor.isOnEntrancePath &&
+        cursor.nNeighbor.distanceFromOpening === cursor.distanceFromOpening - 1
       ) {
         cursor = cursor.nNeighbor
       } else if (
-        cursor.eWall == false &&
-        cursor.eNeighbor != null &&
-        cursor.eNeighbor.isOnEntrancePath == cursor.isOnEntrancePath &&
-        cursor.eNeighbor.distanceFromOpening == cursor.distanceFromOpening - 1
+        cursor.eWall === false &&
+        cursor.eNeighbor !== null &&
+        cursor.eNeighbor.isOnEntrancePath === cursor.isOnEntrancePath &&
+        cursor.eNeighbor.distanceFromOpening === cursor.distanceFromOpening - 1
       ) {
         cursor = cursor.eNeighbor
       } else if (
-        cursor.sWall == false &&
-        cursor.sNeighbor != null &&
-        cursor.sNeighbor.isOnEntrancePath == cursor.isOnEntrancePath &&
-        cursor.sNeighbor.distanceFromOpening == cursor.distanceFromOpening - 1
+        cursor.sWall === false &&
+        cursor.sNeighbor !== null &&
+        cursor.sNeighbor.isOnEntrancePath === cursor.isOnEntrancePath &&
+        cursor.sNeighbor.distanceFromOpening === cursor.distanceFromOpening - 1
       ) {
         cursor = cursor.sNeighbor
       } else if (
-        cursor.wWall == false &&
-        cursor.wNeighbor != null &&
-        cursor.wNeighbor.isOnEntrancePath == cursor.isOnEntrancePath &&
-        cursor.wNeighbor.distanceFromOpening == cursor.distanceFromOpening - 1
+        cursor.wWall === false &&
+        cursor.wNeighbor !== null &&
+        cursor.wNeighbor.isOnEntrancePath === cursor.isOnEntrancePath &&
+        cursor.wNeighbor.distanceFromOpening === cursor.distanceFromOpening - 1
       ) {
         cursor = cursor.wNeighbor
       }
@@ -407,10 +407,10 @@ export class Maze {
     return this.sections.map(section => {
       const mappedSection = {
         ...section,
-        nNeighbor: section.nNeighbor?.id || null,
-        eNeighbor: section.eNeighbor?.id || null,
-        sNeighbor: section.sNeighbor?.id || null,
-        wNeighbor: section.wNeighbor?.id || null,
+        nNeighbor: section.nNeighbor?.id ?? null,
+        eNeighbor: section.eNeighbor?.id ?? null,
+        sNeighbor: section.sNeighbor?.id ?? null,
+        wNeighbor: section.wNeighbor?.id ?? null,
       }
       return mappedSection
     })
