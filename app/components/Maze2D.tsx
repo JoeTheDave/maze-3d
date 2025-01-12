@@ -2,6 +2,7 @@ import cc from 'classcat'
 import { useState, useEffect } from 'react'
 import { useKeyPress } from '~/lib/useKeyPress'
 import { useWindowSize } from '@react-hook/window-size'
+import MazeCompleteModal from './MazeCompleteModal'
 
 import type { MazeData } from '~/lib/mazeGenerator'
 import type { FC } from 'react'
@@ -16,6 +17,7 @@ interface ContainerProps {
 
 const Maze2D: FC<ContainerProps> = ({ maze, mazeHeight, mazeWidth, mazeSegLength, mazeSeed }) => {
   const [position, setPosition] = useState<MazeData>(maze.find(d => d.isEntrance) as MazeData)
+  const [mazeComplete, setMazeComplete] = useState<boolean>(false)
   const [windowWidth, windowHeight] = useWindowSize()
   const upPressed = useKeyPress('ArrowUp')
   const rightPressed = useKeyPress('ArrowRight')
@@ -40,6 +42,12 @@ const Maze2D: FC<ContainerProps> = ({ maze, mazeHeight, mazeWidth, mazeSegLength
   useEffect(() => {
     setPosition(maze.find(d => d.isEntrance) as MazeData)
   }, [mazeHeight, mazeWidth, mazeSegLength, mazeSeed])
+
+  useEffect(() => {
+    if (position.isExit) {
+      setMazeComplete(true)
+    }
+  }, [position])
 
   const mazeSectionSize = Math.min(
     Math.floor((windowWidth - 100) / mazeWidth),
@@ -84,6 +92,7 @@ const Maze2D: FC<ContainerProps> = ({ maze, mazeHeight, mazeWidth, mazeSegLength
           className="bg-red-400 absolute rounded-full transition-all"
         ></div>
       </div>
+      <MazeCompleteModal show={mazeComplete} />
     </>
   )
 }

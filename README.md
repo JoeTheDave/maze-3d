@@ -23,6 +23,7 @@ npm run dev
 
 ## TODO
 
+- [ ] Reconstruct app off of vite instead of remix
 - [x] Rebuild repo as an express server remix app
 - [x] Tie Seed to psudo random number generation
 - [x] 2D view - Bug when changing maze dimensions, character marker doesn't reset to entrance of the maze
